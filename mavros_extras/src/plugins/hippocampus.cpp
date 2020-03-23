@@ -17,9 +17,9 @@ public:
     {
         PluginBase::initialize(uas_);
         attitude_target_sub = nh.subscribe(
-            "attitude_target/external",
+            "attitude_control_ext",
             1,
-            &HippoCampusPlugin::attitude_target_cb,
+            &HippoCampusPlugin::attitude_control_ext_cb,
             this);
     };
 
@@ -31,10 +31,10 @@ public:
 private:
     ros::NodeHandle nh;
     ros::Subscriber attitude_target_sub;
-    void attitude_target_cb(
+    void attitude_control_ext_cb(
         const hippocampus_msgs::AttitudeTargetExt::ConstPtr &req)
     {
-        mavlink::common::msg::HIPPOCAMPUS_ATTITUDE_TARGET_EXTERNAL target{};
+        mavlink::common::msg::ATTITUDE_CONTROL_EXT target{};
         target.thrust = req->thrust;
         target.roll = req->roll;
         target.pitch = req->pitch;
@@ -42,7 +42,7 @@ private:
 
         UAS_FCU(m_uas)->send_message_ignore_drop(target);
     }
-}
+};
 } // namespace extra_plugins
 } // namespace mavros
 
