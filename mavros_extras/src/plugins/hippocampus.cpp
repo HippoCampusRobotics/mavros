@@ -4,6 +4,8 @@
 #include <hippocampus_msgs/AttitudeTargetExt.h>
 #include <hippocampus_msgs/MixerFeedthrough.h>
 
+#include <Eigen/Core>
+
 namespace mavros
 {
 namespace extra_plugins
@@ -48,8 +50,8 @@ private:
         mavlink::common::msg::ATTITUDE_CONTROL_EXT target{};
         target.thrust = req->thrust;
         target.roll = req->roll;
-        target.pitch = req->pitch;
-        target.yaw = req->yaw;
+        target.pitch = -req->pitch;
+        target.yaw = -req->yaw;
 
         UAS_FCU(m_uas)->send_message_ignore_drop(target);
     }
