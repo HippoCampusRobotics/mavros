@@ -1,8 +1,8 @@
 #include <mavros/mavros_plugin.h>
 #include <pluginlib/class_list_macros.h>
 #include <iostream>
-#include <hippocampus_msgs/AttitudeTargetExt.h>
-#include <hippocampus_msgs/MixerFeedthrough.h>
+#include <mavros_msgs/AttitudeControlExt.h>
+#include <mavros_msgs/MixerFeedthrough.h>
 
 #include <Eigen/Core>
 
@@ -45,7 +45,7 @@ private:
     ros::Subscriber mixer_feedthrough_sub;
 
     void attitude_control_ext_cb(
-        const hippocampus_msgs::AttitudeTargetExt::ConstPtr &req)
+        const mavros_msgs::AttitudeControlExt::ConstPtr &req)
     {
         mavlink::common::msg::ATTITUDE_CONTROL_EXT target{};
         target.thrust = req->thrust;
@@ -56,7 +56,7 @@ private:
         UAS_FCU(m_uas)->send_message_ignore_drop(target);
     }
 
-    void mixer_feedthrough_cb(const hippocampus_msgs::MixerFeedthrough::ConstPtr &req)
+    void mixer_feedthrough_cb(const mavros_msgs::MixerFeedthrough::ConstPtr &req)
     {
         mavlink::common::msg::MIXER_FEEDTHROUGH target{};
         target.motor_ul = req->motor_ul;
